@@ -30,6 +30,7 @@ FCM_SENDER="你对应的内容"
 ## 我的修改版本的修改
 * 删去QQ头像相关功能
 * 能够唤醒被雹冻结的应用
+* 改变提醒的样式，使用APP的图标(API23+)
 
 ## 参考
 [原作者的NotficationPush仓库](https://github.com/RichardLuo0/NotificationPush)

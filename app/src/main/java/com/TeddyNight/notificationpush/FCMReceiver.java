@@ -24,6 +24,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.PatternMatcher;
@@ -96,6 +97,15 @@ public class FCMReceiver extends FirebaseMessagingService {
                 .setOnlyAlertOnce(!ringForEach)
                 .build();
         notificationManagerCompat.notify(channelName, 0, notification);
+    }
+
+    @NonNull
+    private Bitmap getBitmapFromDrawable(@NonNull Drawable drawable) {
+        final Bitmap bmp = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bmp);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bmp;
     }
 
     @Override
@@ -214,21 +224,15 @@ public class FCMReceiver extends FirebaseMessagingService {
         setSummary(packageName, AppName, intent);
         Bitmap largeIcon = null;
         try {
-            largeIcon = ((BitmapDrawable)getPackageManager().getApplicationIcon(packageName)).getBitmap();
+            largeIcon = getBitmapFromDrawable(getPackageManager().getApplicationIcon(packageName));
         } catch (Exception e) {
             largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
             e.printStackTrace();
         }
-        Notification.Builder mBuilder =
-                new Notification.Builder(this)
-                        .setSmallIcon(Icon.createWithBitmap(largeIcon))
-                        .setLargeIcon(largeIcon)
-                        .setContentTitle(title)
-                        .setContentText(body)
-                        .setGroup(packageName);
 
         Notification notification = new Notification.Builder(this, AppName == null ? "" : AppName)
                 .setSmallIcon(Icon.createWithBitmap(largeIcon))
+                .setLargeIcon(largeIcon)
                 .setColor(color)
                 .setContentTitle(title)
                 .setContentText(body)
