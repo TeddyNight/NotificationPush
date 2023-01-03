@@ -1,4 +1,4 @@
-package com.RichardLuo.notificationpush;
+package com.TeddyNight.notificationpush;
 
 import android.accessibilityservice.AccessibilityService;
 import android.view.accessibility.AccessibilityEvent;

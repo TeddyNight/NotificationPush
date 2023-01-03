@@ -1,4 +1,4 @@
-package com.RichardLuo.notificationpush;
+package com.TeddyNight.notificationpush;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.color:
                 AlertDialog.Builder listDialog = new MaterialAlertDialogBuilder(this);
                 listDialog.setTitle("选择颜色");
-                listDialog.setSingleChoiceItems(ThemeProvider.getThemeNameList(), ThemeProvider.getCurrentTheme(this), (dialog, click) -> {
+                listDialog.setSingleChoiceItems(ThemeProvider.getThemeNameList(), ThemeProvider.getCurrentTheme(this).color, (dialog, click) -> {
                     ThemeProvider.setTheme(this, click);
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
@@ -50,14 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 final AlertDialog.Builder normalDialog = new MaterialAlertDialogBuilder(this);
                 normalDialog.setTitle("关于");
                 normalDialog.setMessage(getResources().getString(R.string.HowToUse));
-                normalDialog.setPositiveButton("捐赠", (dialog, which) -> {
-                    try {
-                        startActivity(new Intent().setData(Uri.parse("alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=https://qr.alipay.com/fkx0746746ugqrzxkrle7c0?_s=web-other")).setAction("android.intent.action.VIEW"));
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "Alipay not found!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                normalDialog.setNeutralButton("GITHUB", (dialog, which) -> startActivity(new Intent().setData(Uri.parse("https://github.com/CJieLuo/NotificationPush")).setAction("android.intent.action.VIEW")));
+                normalDialog.setNeutralButton("GITHUB", (dialog, which) -> startActivity(new Intent().setData(Uri.parse("https://github.com/TeddyNight/NotificationPush")).setAction("android.intent.action.VIEW")));
                 normalDialog.show();
                 break;
         }

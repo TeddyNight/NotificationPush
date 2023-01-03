@@ -1,4 +1,4 @@
-package com.RichardLuo.notificationpush;
+package com.TeddyNight.notificationpush;
 
 import android.util.Log;
 

@@ -1,8 +1,6 @@
 # NotificationPush
 此应用可以通过fcm从一台手机向另一台手机转发通知
 
-目前仅在酷安发布[传送门](https://www.coolapk.com/apk/223104)
-
 ## 需要
 * 一台旧手机作为服务器
 * 一台可以接收fcm推送的主力机

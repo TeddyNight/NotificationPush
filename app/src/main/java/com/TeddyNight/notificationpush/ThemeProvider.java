@@ -1,4 +1,4 @@
-package com.RichardLuo.notificationpush;
+package com.TeddyNight.notificationpush;
 
 import android.content.Context;
 import android.os.Build;
@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 
 public class ThemeProvider {
-    private static class Theme {
+    public static class Theme {
         String name;
         int style;
         int color;

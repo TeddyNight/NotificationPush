@@ -1,4 +1,4 @@
-package com.RichardLuo.notificationpush;
+package com.TeddyNight.notificationpush;
 
 import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
@@ -99,9 +99,11 @@ public class GetNotification extends NotificationListenerService {
                 }
 
                 //此处对单个应用进行单独定义
+
                 switch (packageName) {
-                    case "com.RichardLuo.notificationpush":
+                    case "com.TeddyNight.notificationpush":
                         return;
+                        /*
                     case "com.tencent.minihd.qq":
                     case "com.tencent.mobileqqi":
                     case "com.tencent.qqlite":
@@ -127,7 +129,9 @@ public class GetNotification extends NotificationListenerService {
                             } else
                                 return;
                         }
+                         */
                 }
+
 
 
                 HttpURLConnection connection;
@@ -150,8 +154,10 @@ public class GetNotification extends NotificationListenerService {
                     content.put("package", packageName);
                     content.put("name", AppName);
                     content.put("id", ID);
+                    /*
                     if (senderName != null)
                         content.put("senderName", senderName);
+                     */
                     obj.put("to", inputID);
                     obj.put("priority", priority);
                     obj.put("data", content);
@@ -164,6 +170,7 @@ public class GetNotification extends NotificationListenerService {
                 } catch (Exception e) {
                     Log.e("error:", "Can't send " + packageName + " " + title);
                 }
+                cancelNotification(sbn.getKey());
                 super.run();
             }
         }.start();

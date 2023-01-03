@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.RichardLuo.notificationpush",
+  "applicationId": "com.TeddyNight.notificationpush",
   "variantName": "release",
   "elements": [
     {

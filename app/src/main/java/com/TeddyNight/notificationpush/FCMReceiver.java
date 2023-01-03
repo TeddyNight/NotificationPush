@@ -1,6 +1,7 @@
-package com.RichardLuo.notificationpush;
+package com.TeddyNight.notificationpush;
 
 import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
+import static android.app.NotificationManager.IMPORTANCE_MAX;
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
@@ -111,8 +112,9 @@ public class FCMReceiver extends FirebaseMessagingService {
         if (hide && ForegroundMonitor.packageName.equals(packageName))
             return;
 
-        setChannel(AppName);
 
+        setChannel(AppName);
+/*
         boolean isQQ = false;
         for (String qqName : Const.QQ_NAMES) {
             if (qqName.equals(packageName)) {
@@ -199,9 +201,12 @@ public class FCMReceiver extends FirebaseMessagingService {
             intent = getIntent(packageName);
             setSummary(packageName, AppName, intent);
         }
-
+*/
+        intent = getIntent(packageName);
+        setSummary(packageName, AppName, intent);
         Notification notification = new NotificationCompat.Builder(this, AppName == null ? "" : AppName)
                 .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification))
                 .setColor(color)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .setSummaryText(AppName))
@@ -209,6 +214,7 @@ public class FCMReceiver extends FirebaseMessagingService {
                 .setContentText(body)
                 .setGroup(packageName)
                 .setContentIntent(intent)
+                .setFullScreenIntent(intent,true)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(!ringForEach)
                 .build();
@@ -248,7 +254,7 @@ public class FCMReceiver extends FirebaseMessagingService {
     public void setChannel(String AppName) {
         NotificationChannel mChannel;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !getSharedPreferences("Channels", MODE_PRIVATE).contains(AppName)) {
-            mChannel = new NotificationChannel(AppName, AppName, IMPORTANCE_DEFAULT);
+            mChannel = new NotificationChannel(AppName, AppName, NotificationManager.IMPORTANCE_HIGH);
             Objects.requireNonNull(getSystemService(NotificationManager.class)).createNotificationChannel(mChannel);
             getSharedPreferences("Channels", MODE_PRIVATE).edit().putBoolean(AppName, true).apply();
         }

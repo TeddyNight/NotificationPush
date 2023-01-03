@@ -7,7 +7,7 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 android {
     compileSdkVersion 31
     defaultConfig {
-        applicationId "com.RichardLuo.notificationpush"
+        applicationId 'com.TeddyNight.notificationpush'
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 30
