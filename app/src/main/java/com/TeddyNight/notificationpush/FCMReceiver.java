@@ -12,6 +12,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -21,6 +23,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.PatternMatcher;
 import android.service.notification.StatusBarNotification;
@@ -208,12 +212,24 @@ public class FCMReceiver extends FirebaseMessagingService {
 */
         intent = getIntent(packageName);
         setSummary(packageName, AppName, intent);
-        Notification notification = new NotificationCompat.Builder(this, AppName == null ? "" : AppName)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification))
+        Bitmap largeIcon = null;
+        try {
+            largeIcon = ((BitmapDrawable)getPackageManager().getApplicationIcon(packageName)).getBitmap();
+        } catch (Exception e) {
+            largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
+            e.printStackTrace();
+        }
+        Notification.Builder mBuilder =
+                new Notification.Builder(this)
+                        .setSmallIcon(Icon.createWithBitmap(largeIcon))
+                        .setLargeIcon(largeIcon)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setGroup(packageName);
+
+        Notification notification = new Notification.Builder(this, AppName == null ? "" : AppName)
+                .setSmallIcon(Icon.createWithBitmap(largeIcon))
                 .setColor(color)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .setSummaryText(AppName))
                 .setContentTitle(title)
                 .setContentText(body)
                 .setGroup(packageName)
@@ -222,7 +238,10 @@ public class FCMReceiver extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(!ringForEach)
                 .build();
+
+
         notificationManagerCompat.notify(packageName, id, notification);
+
     }
 
     @SuppressWarnings("SuspiciousNameCombination")
@@ -327,6 +346,7 @@ public class FCMReceiver extends FirebaseMessagingService {
             notificationManagerCompat.notify(packageName, 0, summary);
         }
     }
+
 
     private void MessagingStyle(String packageName, String AppName, String title, String senderName, String message, PendingIntent intent, int ID, IconCompat icon, Bitmap largeIcon) {
         Person.Builder personBuilder = new Person.Builder()
