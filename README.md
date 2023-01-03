@@ -26,3 +26,11 @@ FCM_AUTHORIZATION="你对应的内容"
 FCM_SENDER="你对应的内容"
 ```
 * 编译
+
+## 我的修改版本的修改
+* 删去QQ头像相关功能
+* 能够唤醒被雹冻结的应用
+
+## 参考
+[原作者的NotficationPush仓库](https://github.com/RichardLuo0/NotificationPush)
+[Hail的API](https://github.com/aistra0528/Hail)

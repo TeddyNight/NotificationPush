@@ -114,7 +114,7 @@ public class FCMReceiver extends FirebaseMessagingService {
 
 
         setChannel(AppName);
-/*
+
         boolean isQQ = false;
         for (String qqName : Const.QQ_NAMES) {
             if (qqName.equals(packageName)) {
@@ -122,7 +122,11 @@ public class FCMReceiver extends FirebaseMessagingService {
                 break;
             }
         }
+        if (isQQ) {
+            packageName = getSharedPreferences("MainActivity", MODE_PRIVATE).getString("installedQQ", null);
+        }
 
+/*
         if (isQQ && senderName != null) {
             String className = ForegroundMonitor.packageName;
             String qqPackageName = getSharedPreferences("MainActivity", MODE_PRIVATE).getString("installedQQ", null);
@@ -261,6 +265,7 @@ public class FCMReceiver extends FirebaseMessagingService {
     }
 
     private PendingIntent getIntent(String packageName) {
+        boolean hailInstalled = getDefaultSharedPreferences(this).getBoolean("hailInstalled", false);
         PendingIntent intent = null;
         if (package_Intent.containsKey(packageName)) {
             intent = package_Intent.get(packageName);
@@ -268,7 +273,14 @@ public class FCMReceiver extends FirebaseMessagingService {
         }
         if (packageName != null)
             try {
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+                Intent launchIntent;
+                if (hailInstalled) {
+                    launchIntent = new Intent();
+                    launchIntent.setAction("com.aistra.hail.action.LAUNCH");
+                    launchIntent.putExtra("package", packageName);
+                }
+                else
+                    launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
                 if (launchIntent == null)
                     return null;
                 int flags;

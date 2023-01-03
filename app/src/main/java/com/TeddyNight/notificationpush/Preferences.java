@@ -130,13 +130,14 @@ public class Preferences extends PreferenceFragmentCompat {
             normalDialog.show();
             return false;
         });
-
+/*
         Preference LoginPreference = findPreference("Login");
         Objects.requireNonNull(LoginPreference).setOnPreferenceClickListener(preference -> {
             startActivityForResult(new Intent(getContext(), QQLogin.class), 200);
             Toast.makeText(getActivity(), "登录成功后返回即可", Toast.LENGTH_SHORT).show();
             return false;
         });
+ */
 
         Preference clear = findPreference("clear");
         Objects.requireNonNull(clear).setOnPreferenceClickListener(preference -> {
